@@ -1,10 +1,12 @@
-require("dotenv").config();
-const express = require("express");
-const morgan = require("morgan");
-const path = require("path");
-const cors = require("cors");
+import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+import * as productRoutes from "./routes/products.routes.js";
+import { connectionInit } from "./database.js";
+
+// initializations
 const app = express();
-const { mongoose } = require("./database");
+connectionInit();
 
 // Settings
 app.set("PORT", process.env.PORT || 5000);
@@ -15,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api/products", require("./routes/products.routes.js"));
+app.use("/api/products", productRoutes.router);
 
 // Server start
 app.listen(app.get("PORT"), () => {
