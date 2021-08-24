@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "github": "git.sh",
+    "clean": "rm -rf dist && mkdir dist",
+    "build": "babel src --out-dir dist",
     "start": "node build/index.js",
-    "build": "babel src --out-dir build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
