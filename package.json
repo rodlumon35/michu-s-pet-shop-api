@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "github": "git.sh",
-    "start": "babel-node src/index.js",
     "dev": "nodemon src/index.js",
+    "github": "git.sh",
+    "start": "node build/index.js",
+    "build": "babel src --out-dir build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -23,7 +24,9 @@
     "@babel/cli": "^7.14.8",
     "@babel/core": "^7.15.0",
     "@babel/node": "^7.14.9",
+    "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "nodemon": "^2.0.12"
   }
 }
