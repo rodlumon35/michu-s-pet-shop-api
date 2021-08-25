@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import * as productRoutes from "./routes/products.routes.js";
+import * as authRoutes from "./routes/auth.routes.js";
 import { connectionInit } from "./database.js";
 
 // initializations
@@ -18,6 +19,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/products", productRoutes.router);
+app.use("/api/auth", authRoutes.router);
 
 // Server start
 app.listen(app.get("PORT"), () => {
