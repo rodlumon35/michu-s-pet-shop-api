@@ -13,7 +13,7 @@ connectionInit();
 createRoles();
 
 // Settings
-app.set("PORT", process.env.PORT || 5000);
+app.set("APPLICATION_PORT", process.env.PORT || 5000);
 app.set("pkg", pkg);
 
 // Middleware
@@ -37,6 +37,6 @@ app.use("/api/products", productRoutes.router);
 app.use("/api/auth", authRoutes.router);
 
 // Server start
-app.listen(app.get("PORT"), () => {
-  console.log(`running server on http://localhost:${app.get("PORT")}`);
+app.listen(app.get("APPLICATION_PORT"), () => {
+  console.log(`running server on http://localhost:${app.get("APPLICATION_PORT")}`);
 });
