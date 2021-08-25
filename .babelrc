@@ -4,7 +4,10 @@
   ],
   "plugins": [
     [
-      "@babel/transform-runtime"
+      "@babel/transform-runtime",
+      {
+        "regenerator": true
+      }
     ]
   ]
 }
