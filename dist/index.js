@@ -29,7 +29,7 @@ var app = (0, _express["default"])();
 (0, _database.connectionInit)();
 (0, _initialSettings.createRoles)(); // Settings
 
-app.set("APPLICATION_PORT", process.env.PORT || 5000);
+app.set("APPLICATION_PORT", process.env.PORT || '5000');
 app.set("pkg", _package["default"]); // Middleware
 
 app.use((0, _morgan["default"])("dev"));

@@ -13,7 +13,7 @@ connectionInit();
 createRoles();
 
 // Settings
-app.set("APPLICATION_PORT", process.env.PORT || 5000);
+app.set("APPLICATION_PORT", process.env.PORT || '5000');
 app.set("pkg", pkg);
 
 // Middleware
