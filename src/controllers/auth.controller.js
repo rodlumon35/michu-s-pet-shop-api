@@ -1,21 +1,27 @@
 import User from "../models/User.js";
 import config from "../config.js";
 import jwt from "jsonwebtoken";
+import Role from "../models/Role.js";
 
 export const signup = async (req, res) => {
   const { username, password, phone, roles } = req.body;
 
-  console.log(await getUser(username));
-
-  if (await getUser(username) === null) {
+  if ((await getUser(username)) === null) {
     const user = new User({
       username,
       password: await User.encryptPassword(password),
       phone,
     });
 
-    const savedUser = await user.save();
+    if (roles) {
+      const foundRoles = await Role.find({ name: { $in: roles } });
+      user.roles = foundRoles.map((role) => role._id);
+    } else {
+      const { _id } = await Role.findOne({ name: "user" });
+      user.roles = [_id];
+    }
 
+    const savedUser = await user.save();
     const token = jwt.sign({ id: savedUser._id }, config.SECRET, {
       expiresIn: 43200,
     });
@@ -25,6 +31,7 @@ export const signup = async (req, res) => {
         status: "SUCCESS",
         data: {
           token: token,
+          user: savedUser,
           message: "User created successfully",
         },
       });

@@ -1,5 +1,9 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
+const { Schema, model } = mongoose;
 
-new Schema({ name: { type: String, default: "user" } }, { versionKey: false });
+const roleSchema = new Schema(
+  { name: { type: String, default: "user" } },
+  { versionKey: false }
+);
 
-export default model.Schema("Role", roleSchema);
+export default model("Role", roleSchema);

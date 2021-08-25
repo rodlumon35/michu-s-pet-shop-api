@@ -4,10 +4,12 @@ import cors from "cors";
 import * as productRoutes from "./routes/products.routes.js";
 import * as authRoutes from "./routes/auth.routes.js";
 import { connectionInit } from "./database.js";
+import { createRoles } from "./libs/initialSettings.js";
 
 // initializations
 const app = express();
 connectionInit();
+createRoles();
 
 // Settings
 app.set("PORT", process.env.PORT || 5000);
