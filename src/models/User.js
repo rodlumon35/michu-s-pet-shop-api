@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema(
@@ -17,5 +19,18 @@ const userSchema = new Schema(
   },
   { timestamps: true, versionKey: false }
 );
+
+userSchema.statics.encryptPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+
+  return await bcrypt.hash(password, salt);
+};
+
+userSchema.statics.comparePassword = async (
+  originalPassword,
+  receivedPassword
+) => {
+  return await bcrypt.compare(originalPassword, receivedPassword);
+};
 
 export default model("User", userSchema);
