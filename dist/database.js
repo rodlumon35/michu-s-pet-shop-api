@@ -22,7 +22,7 @@ _mongoose["default"].set("useCreateIndex", true);
 _mongoose["default"].set("useUnifiedTopology", true);
 
 var connectionInit = function connectionInit() {
-  _mongoose["default"].connect(process.env.DB_LOCAL_URL).then(function (db) {
+  _mongoose["default"].connect(process.env.DB_URL).then(function (db) {
     return console.log("db connected");
   })["catch"](function (err) {
     return console.error("DB is missing");
