@@ -1,14 +1,16 @@
-import { Product } from "../models/products.js";
+import Product from "../models/products.js";
 
 export const createNewProduct = async (req, res) => {
-  const product = new Product(req.body);
+  const { name, price, description, category, quantity, image } = req.body;
+  const product = await new Product({
+    name,
+    price,
+    description,
+    category,
+    quantity,
+  });
 
-  if (
-    product.name &&
-    product.price &&
-    product.description &&
-    product.category
-  ) {
+  if (name && price && description && category && quantity && image) {
     if (await product.save())
       res.json({
         status: "SUCCESS",
