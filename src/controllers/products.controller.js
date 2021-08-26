@@ -42,12 +42,16 @@ export const getProductsByName = async (req, res) => {
 
 // esto se rompe, presuntamente por el length del id
 export const getProductsById = async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  try {
+    const product = await Product.findById(req.params.id);
 
-  if (product) {
-    res.json({ status: "SUCCESS", data: [{ product: product }] });
-  } else {
-    res.json({ status: "ERROR", message: "Product not found" });
+    if (product) {
+      res.json({ status: "SUCCESS", data: [{ product: product }] });
+    } else {
+      res.json({ status: "ERROR", message: "Product not found" });
+    }
+  } catch (error) {
+    res.json({ status: "ERROR", message: error });
   }
 };
 

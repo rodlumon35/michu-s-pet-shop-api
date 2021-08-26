@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import * as productRoutes from "./routes/products.routes.js";
 import * as authRoutes from "./routes/auth.routes.js";
+import * as userRoutes from "./routes/user.routes.js";
 import { connectionInit } from "./database.js";
 import { createRoles } from "./libs/initialSettings.js";
 import pkg from "../package.json";
@@ -13,7 +14,7 @@ connectionInit();
 createRoles();
 
 // Settings
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000;
 app.set("pkg", pkg);
 
 // Middleware
@@ -35,6 +36,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/products", productRoutes.router);
 app.use("/api/auth", authRoutes.router);
+app.use("/api/user", userRoutes.router);
 
 // Server start
 app.listen(port, () => {
