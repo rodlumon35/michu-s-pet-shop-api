@@ -79,18 +79,25 @@ export const deleteProduct = async (req, res) => {
 };
 
 export const editProduct = async (req, res) => {
-  const _product = await Product.find({ _id: req.params.id });
-  await Product.findByIdAndUpdate(req.params.id, req.body);
-  const product = await Product.find({ _id: req.params.id });
+  try {
+    const _product = await Product.find({ _id: req.params.id });
+    await Product.findByIdAndUpdate(req.params.id, req.body);
+    const product = await Product.find({ _id: req.params.id });
 
-  res.json({
-    status: "SUCCESS",
-    message: "Product update successfully",
-    data: [
-      {
-        old: _product,
-        new: product,
-      },
-    ],
-  });
+    res.json({
+      status: "SUCCESS",
+      data: [
+        {
+          message: "Product update successfully",
+          old: _product,
+          new: product,
+        },
+      ],
+    });
+  } catch (error) {
+    res.json({
+      status: "ERROR",
+      data: [{ message: error.message }],
+    });
+  }
 };

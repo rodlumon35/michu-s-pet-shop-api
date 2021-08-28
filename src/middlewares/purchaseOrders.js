@@ -5,14 +5,25 @@ import Products from "../models/Products";
 
 export const verifyOwner = async (req, res, next) => {
   const loggedUser = await User.findById(req.id);
-  const roles = await Role.find({ _id: { $in: user.roles } });
-  const purcharseOrder = await PurcharseOrders.find({
-    username: { $in: loggedUser._id },
-  });
+  const roles = await Role.find({ _id: { $in: loggedUser.roles } });
 
-  console.log(loggedUser);
-  console.log(roles);
-  console.log(purcharseOrder);
+  try {
+    const purcharseOrder = await PurcharseOrders.findOne({
+      username: { $in: loggedUser._id },
+    });
+
+    if (
+      isAdmin(roles) ||
+      purcharseOrder.username.toString() === loggedUser._id.toString()
+    ) {
+      next();
+    }
+  } catch (error) {
+    res.json({
+      status: "ERROR",
+      data: { message: "unauthorized action", error: error.message },
+    });
+  }
 };
 
 export const setTotal = async (req, res, next) => {
@@ -35,3 +46,10 @@ export const setTotal = async (req, res, next) => {
 };
 
 export const setStatus = async (req, res, next) => {};
+
+const isAdmin = (roles) => {
+  roles.forEach((role) => {
+    if (role === "admin") return true;
+  });
+  return false;
+};

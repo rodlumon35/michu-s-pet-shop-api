@@ -21,14 +21,48 @@ export const createNewPurchaseOrder = async (req, res) => {
       address,
       status: req.purchaseOrderStatus,
     });
-    res.json({ status: "SUCCESS", data: { purchaseOrder } });
+    if (purchaseOrder.save()) {
+      res.json({ status: "SUCCESS", data: { purchaseOrder } });
+    } else {
+      res.json({
+        status: "ERROR",
+        data: { message: "Purchase order can't be created" },
+      });
+    }
   } catch (error) {
     res.json({ status: "ERROR", data: { message: error.message } });
   }
 };
 
-export const editPurchaseOrder = async (req, res) => {};
+export const editPurchaseOrder = async (req, res) => {
+  let { address, details } = req.body;
+  const _purchaseOrder = await PurcharseOrders.findById(req.params.id);
 
-export const deletePurchaseOrder = async (req, res) => {};
+  if (address === null) address = _purchaseOrder.address;
+  if (details === null) details = _purchaseOrder.details;
+
+  try {
+    await PurcharseOrders.findByIdAndUpdate(req.params.id, {
+      address,
+      details,
+    });
+    const purcharseOrder = await PurcharseOrders.findById(req.params.id);
+
+    res.json({
+      status: "OK",
+      data: {
+        message: "Purchase order editting",
+        purcharseOrder,
+        _purchaseOrder,
+      },
+    });
+  } catch (error) {
+    res.json({ status: "ERROR", data: { message: error.message } });
+  }
+};
+
+export const deletePurchaseOrder = async (req, res) => {
+  res.json({ status: "ERROR", data: { message: "Purchase order deleting" } });
+};
 
 //export const completePurchaseOrder = async (req, res) => {};
