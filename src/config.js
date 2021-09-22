@@ -1,3 +1,5 @@
+import env from "dotenv";
+env.config();
+
 export default {
-  SECRET: "michu",
-};
+  SECRET: process.env.SECRET_WORD,

@@ -54,9 +54,27 @@ export const signup = async (req, res) => {
 };
 
 export const signin = async (req, res) => {
-  res.json("signin");
+  const user = await getUser(req.body.username);
+
+  if (user === null)
+    return res.json({
+      status: "ERROR",
+      data: { message: "Username was not found" },
+    });
+
+  if (await User.comparePassword(req.body.password, user.password)) {
+    const token = await jwt.sign({ id: user._id }, config.SECRET, {
+      expiresIn: 43200,
+    });
+    res.json({ status: "SUCCESS", data: { message: "user found", token } });
+  } else {
+    res.json({
+      status: "ERROR",
+      data: { message: "Invalid password", token: "Invalid Token" },
+    });
+  }
 };
 
 const getUser = async (username) => {
-  return await User.findOne({ username: username });
+  return await User.findOne({ username: username }).populate("roles");
 };

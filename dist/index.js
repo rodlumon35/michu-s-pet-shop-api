@@ -29,7 +29,7 @@ var app = (0, _express["default"])();
 (0, _database.connectionInit)();
 (0, _initialSettings.createRoles)(); // Settings
 
-app.set("PORT", process.env.PORT || 5000);
+var port = process.env.PORT || 8000;
 app.set("pkg", _package["default"]); // Middleware
 
 app.use((0, _morgan["default"])("dev"));
@@ -49,6 +49,6 @@ app.get("/", function (req, res) {
 app.use("/api/products", productRoutes.router);
 app.use("/api/auth", authRoutes.router); // Server start
 
-app.listen(app.get("PORT"), function () {
-  console.log("running server on http://localhost:".concat(app.get("PORT")));
+app.listen(port, function () {
+  console.log("running server on http://localhost:".concat(port));
 });

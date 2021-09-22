@@ -42,12 +42,16 @@ export const getProductsByName = async (req, res) => {
 
 // esto se rompe, presuntamente por el length del id
 export const getProductsById = async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  try {
+    const product = await Product.findById(req.params.id);
 
-  if (product) {
-    res.json({ status: "SUCCESS", data: [{ product: product }] });
-  } else {
-    res.json({ status: "ERROR", message: "Product not found" });
+    if (product) {
+      res.json({ status: "SUCCESS", data: [{ product: product }] });
+    } else {
+      res.json({ status: "ERROR", message: "Product not found" });
+    }
+  } catch (error) {
+    res.json({ status: "ERROR", message: error });
   }
 };
 
@@ -75,18 +79,25 @@ export const deleteProduct = async (req, res) => {
 };
 
 export const editProduct = async (req, res) => {
-  const _product = await Product.find({ _id: req.params.id });
-  await Product.findByIdAndUpdate(req.params.id, req.body);
-  const product = await Product.find({ _id: req.params.id });
+  try {
+    const _product = await Product.find({ _id: req.params.id });
+    await Product.findByIdAndUpdate(req.params.id, req.body);
+    const product = await Product.find({ _id: req.params.id });
 
-  res.json({
-    status: "SUCCESS",
-    message: "Product update successfully",
-    data: [
-      {
-        old: _product,
-        new: product,
-      },
-    ],
-  });
+    res.json({
+      status: "SUCCESS",
+      data: [
+        {
+          message: "Product update successfully",
+          old: _product,
+          new: product,
+        },
+      ],
+    });
+  } catch (error) {
+    res.json({
+      status: "ERROR",
+      data: [{ message: error.message }],
+    });
+  }
 };

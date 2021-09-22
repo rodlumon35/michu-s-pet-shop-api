@@ -9,7 +9,7 @@ mongoose.set("useUnifiedTopology", true);
 
 export const connectionInit = () => {
   mongoose
-    .connect(process.env.DB_URL)
+    .connect(process.env.DB_LOCAL_URL)
     .then((db) => console.log("db connected"))
     .catch((err) => console.error("DB is missing"));
 };
