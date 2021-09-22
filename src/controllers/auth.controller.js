@@ -57,7 +57,7 @@ export const signin = async (req, res) => {
   const user = await getUser(req.body.username);
 
   if (user === null)
-    return res.status({
+    return res.json({
       status: "ERROR",
       data: { message: "Username was not found" },
     });
